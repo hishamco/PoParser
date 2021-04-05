@@ -43,6 +43,21 @@ namespace PoParser.Core.Tests
         }
 
         [Theory]
+        [InlineData("msgid_plural \"{0} hours to midnight\"", "{0} hours to midnight")]
+        public void ParsePluralMessageIdentifier(string line, string expectedTranslation)
+        {
+            // Arrange
+            var parser = new PoParser();
+
+            // Act
+            var statements = parser.Parse(line);
+
+            // Assert
+            Assert.Single(statements);
+            Assert.Equal(expectedTranslation, (statements.Single() as PluralMessageIdentifierStatement).Identifier);
+        }
+
+        [Theory]
         [InlineData("msgctxt \"\"", "")]
         [InlineData("msgctxt \"Context id of\na long text\"", "Context id of\na long text")]
         public void ParseMessageContext(string line, string expectedTranslation)

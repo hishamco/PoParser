@@ -16,6 +16,7 @@ namespace PoParser.Core
         {
             var statement = CommentStatement.Statement.
                 Or(MessageIdentifierStatement.Statement).
+                Or(PluralMessageIdentifierStatement.Statement).
                 Or(MessageContextStatement.Statement);
 
             Grammar.Parser = Separated(NewLine, statement);
