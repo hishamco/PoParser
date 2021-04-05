@@ -1,6 +1,6 @@
 ﻿using Parlot.Fluent;
 using PoParser.Core.Statements;
-using System;
+using PoParser.Core.Syntax;
 using System.Collections.Generic;
 using static Parlot.Fluent.Parsers;
 
@@ -8,8 +8,6 @@ namespace PoParser.Core
 {
     public class PoParser : IPoParser
     {
-        internal static readonly Parser<string> NewLine = Terms.Text(Environment.NewLine);
-
         public readonly Deferred<List<Statement>> Grammar = Deferred<List<Statement>>();
 
         public PoParser()
@@ -21,14 +19,20 @@ namespace PoParser.Core
                 Or(TranslationStatement.Statement).
                 Or(PluralTranslationStatement.Statement);
 
-            Grammar.Parser = Separated(NewLine, statement);
+            Grammar.Parser = OneOrMany(statement);
         }
 
-        public IEnumerable<Statement> Parse(string content)
+        public SyntaxTree Parse(string content)
         {
             Grammar.TryParse(content, out List<Statement> statements);
 
-            return statements;
+            var syntaxTree = new SyntaxTree();
+            if (statements != null)
+            {
+                syntaxTree.Statements.AddRange(statements);
+            }
+
+            return syntaxTree;
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using PoParser.Core.Syntax;
 
 namespace PoParser.Core
 {
     public interface IPoParser
     {
-        IEnumerable<Statement> Parse(string content);
+        SyntaxTree Parse(string content);
     }
 }

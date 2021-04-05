@@ -1,4 +1,5 @@
 ﻿using PoParser.Core.Statements;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -19,11 +20,11 @@ namespace PoParser.Core.Tests
             var parser = new PoParser();
 
             // Act
-            var statements = parser.Parse(line);
+            var tree = parser.Parse(line);
 
             // Assert
-            Assert.Single(statements);
-            Assert.Equal(expectedText, (statements.Single() as CommentStatement).Text);
+            Assert.Single(tree.Statements);
+            Assert.Equal(expectedText, (tree.Statements.Single() as CommentStatement).Text);
         }
 
         [Theory]
@@ -35,11 +36,11 @@ namespace PoParser.Core.Tests
             var parser = new PoParser();
 
             // Act
-            var statements = parser.Parse(line);
+            var tree = parser.Parse(line);
 
             // Assert
-            Assert.Single(statements);
-            Assert.Equal(expectedTranslation, (statements.Single() as MessageIdentifierStatement).Identifier);
+            Assert.Single(tree.Statements);
+            Assert.Equal(expectedTranslation, (tree.Statements.Single() as MessageIdentifierStatement).Identifier);
         }
 
         [Theory]
@@ -50,11 +51,11 @@ namespace PoParser.Core.Tests
             var parser = new PoParser();
 
             // Act
-            var statements = parser.Parse(line);
+            var tree = parser.Parse(line);
 
             // Assert
-            Assert.Single(statements);
-            Assert.Equal(expectedTranslation, (statements.Single() as PluralMessageIdentifierStatement).Identifier);
+            Assert.Single(tree.Statements);
+            Assert.Equal(expectedTranslation, (tree.Statements.Single() as PluralMessageIdentifierStatement).Identifier);
         }
 
         [Theory]
@@ -66,11 +67,11 @@ namespace PoParser.Core.Tests
             var parser = new PoParser();
 
             // Act
-            var statements = parser.Parse(line);
+            var tree = parser.Parse(line);
 
             // Assert
-            Assert.Single(statements);
-            Assert.Equal(expectedTranslation, (statements.Single() as MessageContextStatement).Context);
+            Assert.Single(tree.Statements);
+            Assert.Equal(expectedTranslation, (tree.Statements.Single() as MessageContextStatement).Context);
         }
 
         [Theory]
@@ -83,11 +84,11 @@ namespace PoParser.Core.Tests
             var parser = new PoParser();
 
             // Act
-            var statements = parser.Parse(line);
+            var tree = parser.Parse(line);
 
             // Assert
-            Assert.Single(statements);
-            Assert.Equal(expectedTranslation, (statements.Single() as TranslationStatement).Value);
+            Assert.Single(tree.Statements);
+            Assert.Equal(expectedTranslation, (tree.Statements.Single() as TranslationStatement).Value);
         }
 
         [Theory]
@@ -98,12 +99,31 @@ namespace PoParser.Core.Tests
             var parser = new PoParser();
 
             // Act
-            var statements = parser.Parse(line);
+            var tree = parser.Parse(line);
 
             // Assert
-            Assert.Single(statements);
-            Assert.Equal(expectedTranslationIndex, (statements.Single() as PluralTranslationStatement).Index);
-            Assert.Equal(expectedTranslationValue, (statements.Single() as PluralTranslationStatement).Value);
+            Assert.Single(tree.Statements);
+            Assert.Equal(expectedTranslationIndex, (tree.Statements.Single() as PluralTranslationStatement).Index);
+            Assert.Equal(expectedTranslationValue, (tree.Statements.Single() as PluralTranslationStatement).Value);
+        }
+
+        [Theory]
+        [InlineData("msgctxt \"Home\"", 1)]
+        [InlineData("msgctxt \"Home\"\r\nmsgid \"Id of\na long text\"", 2)]
+        [InlineData(@"msgid ""Id of\na long text""
+msgid_plural ""Plural id of\na long text""
+msgstr[0] ""Singular translation of\na long text""
+msgstr[1] ""Plural translation of\na long text""", 4)]
+        public void ParseMultiplePOLines(string lines, int expectedStatementsNo)
+        {
+            // Arrange
+            var parser = new PoParser();
+
+            // Act
+            var syntaxTree = parser.Parse(lines);
+
+            // Assert
+            Assert.True(syntaxTree.Statements.Count() == expectedStatementsNo);
         }
     }
 }
