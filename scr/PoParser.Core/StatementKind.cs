@@ -6,9 +6,9 @@ namespace PoParser.Core
     {
         None,
         Comment = 0x1,
-        MessageId = 0x1,
-        PluralMessageId = 0x2,
-        Context = 0x4,
-        Translation = 0x8,
+        MessageId = 0x2,
+        PluralMessageId = 0x4,
+        Context = 0x8,
+        Translation = 0x16,
     }
 }
