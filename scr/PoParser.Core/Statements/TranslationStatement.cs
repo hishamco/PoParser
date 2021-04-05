@@ -29,7 +29,7 @@ namespace PoParser.Core.Statements
                 });
         }
 
-        public TranslationStatement(string value)
+        public TranslationStatement(string value) : base(StatementKind.Translation)
         {
 
             Value = value ?? throw new ArgumentNullException(nameof(value));

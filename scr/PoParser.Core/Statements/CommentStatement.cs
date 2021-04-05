@@ -48,7 +48,7 @@ namespace PoParser.Core.Statements
                 });
         }
 
-        public CommentStatement(CommentKind kind, string text)
+        public CommentStatement(CommentKind kind, string text) : base(StatementKind.Comment)
         {
             if (kind == CommentKind.None)
             {
@@ -59,7 +59,7 @@ namespace PoParser.Core.Statements
             Text = text ?? throw new ArgumentNullException(nameof(text));
         }
 
-        public CommentKind Kind { get; }
+        public new CommentKind Kind { get; }
 
         public string Text { get; }
     }

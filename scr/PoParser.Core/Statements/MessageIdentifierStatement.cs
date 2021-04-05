@@ -29,9 +29,8 @@ namespace PoParser.Core.Statements
                 });
         }
 
-        public MessageIdentifierStatement(string identifier)
+        public MessageIdentifierStatement(string identifier) : base(StatementKind.MessageId)
         {
-
             Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));
         }
 

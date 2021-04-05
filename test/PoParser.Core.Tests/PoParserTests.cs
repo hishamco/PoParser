@@ -1,4 +1,5 @@
 ﻿using PoParser.Core.Statements;
+using PoParser.Core.Syntax;
 using System;
 using System.Linq;
 using Xunit;
@@ -108,13 +109,13 @@ namespace PoParser.Core.Tests
         }
 
         [Theory]
-        [InlineData("msgctxt \"Home\"", 1)]
-        [InlineData("msgctxt \"Home\"\r\nmsgid \"Id of\na long text\"", 2)]
+        [InlineData("msgctxt \"Home\"", 1, new StatementKind[] { StatementKind.Context })]
+        [InlineData("msgctxt \"Home\"\r\nmsgid \"Id of\na long text\"", 2, new StatementKind[] { StatementKind.Context, StatementKind.MessageId })]
         [InlineData(@"msgid ""Id of\na long text""
 msgid_plural ""Plural id of\na long text""
 msgstr[0] ""Singular translation of\na long text""
-msgstr[1] ""Plural translation of\na long text""", 4)]
-        public void ParseMultiplePOLines(string lines, int expectedStatementsNo)
+msgstr[1] ""Plural translation of\na long text""", 4, new StatementKind[] { StatementKind.MessageId, StatementKind.PluralMessageId, StatementKind.Translation, StatementKind.Translation })]
+        public void ParseMultiplePOLines(string lines, int expectedStatementsNo, StatementKind[] expectedStatementsKind)
         {
             // Arrange
             var parser = new PoParser();
@@ -124,6 +125,11 @@ msgstr[1] ""Plural translation of\na long text""", 4)]
 
             // Assert
             Assert.True(syntaxTree.Statements.Count() == expectedStatementsNo);
+
+            for (int i = 0; i < expectedStatementsKind.Length; i++)
+            {
+                Assert.Equal(expectedStatementsKind[i], syntaxTree.Statements[i].Kind);
+            }
         }
     }
 }

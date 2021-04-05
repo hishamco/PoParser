@@ -29,7 +29,7 @@ namespace PoParser.Core.Statements
                 });
         }
 
-        public PluralMessageIdentifierStatement(string identifier)
+        public PluralMessageIdentifierStatement(string identifier) : base(StatementKind.PluralMessageId)
         {
 
             Identifier = identifier ?? throw new ArgumentNullException(nameof(identifier));

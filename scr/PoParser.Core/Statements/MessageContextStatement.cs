@@ -29,9 +29,8 @@ namespace PoParser.Core.Statements
                 });
         }
 
-        public MessageContextStatement(string context)
+        public MessageContextStatement(string context) : base(StatementKind.Context)
         {
-
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }
 

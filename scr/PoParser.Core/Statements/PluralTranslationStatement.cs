@@ -38,7 +38,7 @@ namespace PoParser.Core.Statements
                 });
         }
 
-        public PluralTranslationStatement(int index, string value)
+        public PluralTranslationStatement(int index, string value) : base(StatementKind.Translation)
         {
             Index = index;
             Value = value ?? throw new ArgumentNullException(nameof(value));
