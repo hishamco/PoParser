@@ -18,6 +18,7 @@
         PipeToken,
         DotToken,
         MessageIdentifierToken,
-        MessageContextToken
+        MessageContextToken,
+        MessageTranslation
     }
 }

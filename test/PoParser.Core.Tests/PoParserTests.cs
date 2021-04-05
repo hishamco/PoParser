@@ -72,5 +72,22 @@ namespace PoParser.Core.Tests
             Assert.Single(statements);
             Assert.Equal(expectedTranslation, (statements.Single() as MessageContextStatement).Context);
         }
+
+        [Theory]
+        [InlineData("msgstr \"\"", "")]
+        [InlineData("msgstr \"Hello\"", "Hello")]
+        [InlineData("msgstr \"Translation of\na long text\"", "Translation of\na long text")]
+        public void ParseTranslation(string line, string expectedTranslation)
+        {
+            // Arrange
+            var parser = new PoParser();
+
+            // Act
+            var statements = parser.Parse(line);
+
+            // Assert
+            Assert.Single(statements);
+            Assert.Equal(expectedTranslation, (statements.Single() as TranslationStatement).Value);
+        }
     }
 }
