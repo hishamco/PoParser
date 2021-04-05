@@ -1,17 +1,16 @@
 ﻿using Parlot;
-using PoParser.Core.Statements;
 using System.Linq;
 using Xunit;
 
-namespace PoParser.Core.Tests
+namespace PoParser.Core.Statements.Tests
 {
-    public class CommentStatementTests
+    public class PreviousStringCommentStatementTests
     {
         [Fact]
         public void ParseComment()
         {
             // Arrange
-            var text = "# This is a comment";
+            var text = "#| msgid \"Solar System\"";
             var context = new PoParseContext(text);
             var result = new ParseResult<Statement>();
 
@@ -21,7 +20,7 @@ namespace PoParser.Core.Tests
             // Assert
             var statement = result.Value as CommentStatement;
             Assert.Single(statement.Nodes);
-            Assert.Equal(text[2..], statement.Nodes.Single().Token.Value);
+            Assert.Equal(text[3..], statement.Nodes.Single().Token.Value);
         }
     }
 }

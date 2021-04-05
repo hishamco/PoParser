@@ -10,6 +10,13 @@
         CommentTrivia,
 
         // Tokens
+        StringToken,
+        HashToken,
+        ColonToken,
+        CommaToken,
+        TeldaToken,
+        PipeToken,
+        DotToken,
 
         // Statements
         CommentStatement
