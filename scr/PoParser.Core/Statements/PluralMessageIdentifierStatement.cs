@@ -1,6 +1,7 @@
 ﻿using Parlot.Fluent;
 using PoParser.Core.Syntax;
 using System;
+using System.Linq;
 using static Parlot.Fluent.Parsers;
 
 namespace PoParser.Core.Statements
@@ -15,15 +16,22 @@ namespace PoParser.Core.Statements
                 Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.MessageIdentifierToken, c)));
             var identifierNode = Terms.String(StringLiteralQuotes.Double).
                 Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, c.ToString())));
-            var messageIdentifierStatement = messageIdNode.And(identifierNode);
+            var messageIdentifierStatement = messageIdNode.And(ZeroOrMany(identifierNode));
 
             Statement.Parser = messageIdentifierStatement
                 .Then<Statement>(e =>
                 {
-                    var statement = new PluralMessageIdentifierStatement(e.Item2.Token.Value.ToString());
+                    var identifier = e.Item2.Count == 1
+                        ? e.Item2[0].Token.Value.ToString()
+                        : String.Join(String.Empty, e.Item2.Select(n => n.Token.Value.ToString()));
+                    var statement = new PluralMessageIdentifierStatement(identifier);
 
                     statement.Nodes.Add(e.Item1);
-                    statement.Nodes.Add(e.Item2);
+
+                    foreach (var node in e.Item2)
+                    {
+                        statement.Nodes.Add(node);
+                    }
 
                     return statement;
                 });
