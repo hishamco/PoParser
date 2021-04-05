@@ -11,12 +11,15 @@
 
         // Tokens
         StringToken,
+        NumberToken,
         HashToken,
         ColonToken,
         CommaToken,
         TeldaToken,
         PipeToken,
         DotToken,
+        LeftBracketToken,
+        RightBracketToken,
         MessageIdentifierToken,
         MessageContextToken,
         MessageTranslation

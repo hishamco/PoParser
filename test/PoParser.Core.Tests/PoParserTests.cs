@@ -89,5 +89,21 @@ namespace PoParser.Core.Tests
             Assert.Single(statements);
             Assert.Equal(expectedTranslation, (statements.Single() as TranslationStatement).Value);
         }
+
+        [Theory]
+        [InlineData("msgstr[1] \"Plural translation of\na long text\"", 1, "Plural translation of\na long text")]
+        public void ParsePluralTranslation(string line, int expectedTranslationIndex, string expectedTranslationValue)
+        {
+            // Arrange
+            var parser = new PoParser();
+
+            // Act
+            var statements = parser.Parse(line);
+
+            // Assert
+            Assert.Single(statements);
+            Assert.Equal(expectedTranslationIndex, (statements.Single() as PluralTranslationStatement).Index);
+            Assert.Equal(expectedTranslationValue, (statements.Single() as PluralTranslationStatement).Value);
+        }
     }
 }
