@@ -111,10 +111,14 @@ namespace PoParser.Core.Tests
         [Theory]
         [InlineData("msgctxt \"Home\"", 1, new StatementKind[] { StatementKind.Context })]
         [InlineData("msgctxt \"Home\"\r\nmsgid \"Id of\na long text\"", 2, new StatementKind[] { StatementKind.Context, StatementKind.MessageId })]
-        [InlineData(@"msgid ""Id of\na long text""
+        [InlineData(@"#  translator-comments
+#. extracted-comments
+#: reference…
+#, flag
+msgid ""Id of\na long text""
 msgid_plural ""Plural id of\na long text""
 msgstr[0] ""Singular translation of\na long text""
-msgstr[1] ""Plural translation of\na long text""", 4, new StatementKind[] { StatementKind.MessageId, StatementKind.PluralMessageId, StatementKind.Translation, StatementKind.Translation })]
+msgstr[1] ""Plural translation of\na long text""", 8, new StatementKind[] { StatementKind.Comment, StatementKind.Comment, StatementKind.Comment, StatementKind.Comment, StatementKind.MessageId, StatementKind.PluralMessageId, StatementKind.Translation, StatementKind.Translation })]
         public void ParseMultiplePOLines(string lines, int expectedStatementsNo, StatementKind[] expectedStatementsKind)
         {
             // Arrange

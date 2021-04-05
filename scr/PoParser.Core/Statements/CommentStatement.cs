@@ -24,7 +24,7 @@ namespace PoParser.Core.Statements
             var dotNode = Terms.Char('.').
                 Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.DotToken, c.ToString())));
             var commentStatement = hashNode.And(ZeroOrOne(commaNode.Or(teldaNode).Or(pipeNode).Or(colonNode).Or(dotNode))).
-                And(Terms.Pattern(p => true).Then(e => new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, e.ToString()))));
+                And(Terms.Pattern(c => c != '\n').Then(e => new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, e.ToString()))));
             Statement.Parser = commentStatement
                 .Then<Statement>(e =>
                 {
