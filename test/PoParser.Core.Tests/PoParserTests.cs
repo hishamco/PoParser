@@ -41,5 +41,21 @@ namespace PoParser.Core.Tests
             Assert.Single(statements);
             Assert.Equal(expectedTranslation, (statements.Single() as MessageIdentifierStatement).Identifier);
         }
+
+        [Theory]
+        [InlineData("msgctxt \"\"", "")]
+        [InlineData("msgctxt \"Context id of\na long text\"", "Context id of\na long text")]
+        public void ParseMessageContext(string line, string expectedTranslation)
+        {
+            // Arrange
+            var parser = new PoParser();
+
+            // Act
+            var statements = parser.Parse(line);
+
+            // Assert
+            Assert.Single(statements);
+            Assert.Equal(expectedTranslation, (statements.Single() as MessageContextStatement).Context);
+        }
     }
 }

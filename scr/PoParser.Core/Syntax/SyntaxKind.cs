@@ -17,6 +17,7 @@
         TeldaToken,
         PipeToken,
         DotToken,
-        MessageIdentifierToken
+        MessageIdentifierToken,
+        MessageContextToken
     }
 }

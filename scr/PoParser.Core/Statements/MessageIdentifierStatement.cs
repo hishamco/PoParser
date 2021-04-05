@@ -21,7 +21,6 @@ namespace PoParser.Core.Statements
                 .Then<Statement>(e =>
                 {
                     var statement = new MessageIdentifierStatement(e.Item2.Token.Value.ToString());
-                    //var node = new SyntaxNode(new SyntaxToken(SyntaxKind.MessageIdentifierStatement, null));
 
                     statement.Nodes.Add(e.Item1);
                     statement.Nodes.Add(e.Item2);
