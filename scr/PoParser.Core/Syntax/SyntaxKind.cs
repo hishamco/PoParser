@@ -17,8 +17,6 @@
         TeldaToken,
         PipeToken,
         DotToken,
-
-        // Statements
-        CommentStatement
+        MessageIdentifierToken
     }
 }
