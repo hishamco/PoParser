@@ -17,7 +17,8 @@ namespace PoParser.Core
                 Or(PluralMessageIdentifierStatement.Statement).
                 Or(MessageContextStatement.Statement).
                 Or(TranslationStatement.Statement).
-                Or(PluralTranslationStatement.Statement);
+                Or(PluralTranslationStatement.Statement).
+                Or(LiteralStatement.Statement);
 
             Grammar.Parser = OneOrMany(statement);
         }

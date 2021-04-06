@@ -18,6 +18,7 @@
         TeldaToken,
         PipeToken,
         DotToken,
+        DoubleQuoteToken,
         LeftBracketToken,
         RightBracketToken,
         MessageIdentifierToken,

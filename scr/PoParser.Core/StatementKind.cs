@@ -10,5 +10,6 @@ namespace PoParser.Core
         PluralMessageId = 0x4,
         Context = 0x8,
         Translation = 0x16,
+        Literal = 0x32
     }
 }
