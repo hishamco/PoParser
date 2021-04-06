@@ -12,6 +12,7 @@
         // Tokens
         StringToken,
         NumberToken,
+        IdentifierToken,
         HashToken,
         ColonToken,
         CommaToken,
@@ -20,9 +21,6 @@
         DotToken,
         DoubleQuoteToken,
         LeftBracketToken,
-        RightBracketToken,
-        MessageIdentifierToken,
-        MessageContextToken,
-        MessageTranslation
+        RightBracketToken
     }
 }

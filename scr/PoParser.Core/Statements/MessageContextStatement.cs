@@ -12,18 +12,21 @@ namespace PoParser.Core.Statements
         static MessageContextStatement()
         {
             var messageContextNode = Terms.Text("msgctxt ").
-                Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.MessageContextToken, c)));
+                Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.IdentifierToken, c.TrimEnd())));
+            var doubleQuoteNode = new SyntaxNode(new SyntaxToken(SyntaxKind.DoubleQuoteToken, "\""));
             var contextNode = Terms.String(StringLiteralQuotes.Double).
                 Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, c.ToString())));
-            var messageContextStatement = messageContextNode.And(contextNode);
 
-            Statement.Parser = messageContextStatement
+            Statement.Parser = messageContextNode.And(contextNode)
                 .Then<Statement>(e =>
                 {
-                    var statement = new MessageContextStatement(e.Item2.Token.Value.ToString());
+                    var context = e.Item2.Token.Value.ToString();
+                    var statement = new MessageContextStatement(context);
 
                     statement.Nodes.Add(e.Item1);
-                    statement.Nodes.Add(e.Item2);
+                    statement.Nodes.Add(doubleQuoteNode);
+                    statement.Nodes.Add(new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, context)));
+                    statement.Nodes.Add(doubleQuoteNode);
 
                     return statement;
                 });

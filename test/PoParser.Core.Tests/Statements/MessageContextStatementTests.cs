@@ -21,11 +21,15 @@ namespace PoParser.Core.Tests
 
             // Assert
             var statement = result.Value as MessageContextStatement;
-            Assert.Equal(2, statement.Nodes.Count);
-            Assert.Equal(SyntaxKind.MessageContextToken, statement.Nodes.ElementAt(0).Kind);
-            Assert.Equal("msgctxt ", statement.Nodes.ElementAt(0).Token.Value);
-            Assert.Equal(SyntaxKind.StringToken, statement.Nodes.ElementAt(1).Kind);
-            Assert.Equal("Context id of\na long text", statement.Nodes.ElementAt(1).Token.Value);
+            Assert.Equal(4, statement.Nodes.Count);
+            Assert.Equal(SyntaxKind.IdentifierToken, statement.Nodes.ElementAt(0).Kind);
+            Assert.Equal("msgctxt", statement.Nodes.ElementAt(0).Token.Value);
+            Assert.Equal(SyntaxKind.DoubleQuoteToken, statement.Nodes.ElementAt(1).Kind);
+            Assert.Equal("\"", statement.Nodes.ElementAt(1).Token.Value);
+            Assert.Equal(SyntaxKind.StringToken, statement.Nodes.ElementAt(2).Kind);
+            Assert.Equal("Context id of\na long text", statement.Nodes.ElementAt(2).Token.Value);
+            Assert.Equal(SyntaxKind.DoubleQuoteToken, statement.Nodes.ElementAt(3).Kind);
+            Assert.Equal("\"", statement.Nodes.ElementAt(3).Token.Value);
         }
 
         [Fact]

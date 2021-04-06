@@ -13,12 +13,12 @@ namespace PoParser.Core.Statements
         static TranslationStatement()
         {
             var messageTranslationNode = Terms.Text("msgstr ").
-                Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.MessageTranslation, c)));
+                Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.IdentifierToken, c.TrimEnd())));
+            var doubleQuoteNode = new SyntaxNode(new SyntaxToken(SyntaxKind.DoubleQuoteToken, "\""));
             var translationNode = Terms.String(StringLiteralQuotes.Double).
                 Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, c.ToString())));
-            var translationStatement = messageTranslationNode.And(ZeroOrMany(translationNode));
 
-            Statement.Parser = translationStatement
+            Statement.Parser = messageTranslationNode.And(ZeroOrMany(translationNode))
                 .Then<Statement>(e =>
                 {
                     var identifier = e.Item2.Count == 1
@@ -27,11 +27,9 @@ namespace PoParser.Core.Statements
                     var statement = new TranslationStatement(identifier);
 
                     statement.Nodes.Add(e.Item1);
-
-                    foreach (var node in e.Item2)
-                    {
-                        statement.Nodes.Add(node);
-                    }
+                    statement.Nodes.Add(doubleQuoteNode);
+                    statement.Nodes.Add(new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, identifier)));
+                    statement.Nodes.Add(doubleQuoteNode);
 
                     return statement;
                 });

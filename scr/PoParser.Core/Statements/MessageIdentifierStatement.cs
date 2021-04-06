@@ -13,12 +13,12 @@ namespace PoParser.Core.Statements
         static MessageIdentifierStatement()
         {
             var messageIdNode = Terms.Text("msgid ").
-                Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.MessageIdentifierToken, c)));
+                Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.IdentifierToken, c.TrimEnd())));
+            var doubleQuoteNode = new SyntaxNode(new SyntaxToken(SyntaxKind.DoubleQuoteToken, "\""));
             var identifierNode = Terms.String(StringLiteralQuotes.Double).
                 Then(c => new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, c.ToString())));
-            var messageIdentifierStatement = messageIdNode.And(ZeroOrMany(identifierNode));
 
-            Statement.Parser = messageIdentifierStatement
+            Statement.Parser = messageIdNode.And(ZeroOrMany(identifierNode))
                 .Then<Statement>(e =>
                 {
                     var identifier = e.Item2.Count == 1
@@ -28,10 +28,9 @@ namespace PoParser.Core.Statements
 
                     statement.Nodes.Add(e.Item1);
 
-                    foreach (var node in e.Item2)
-                    {
-                        statement.Nodes.Add(node);
-                    }
+                    statement.Nodes.Add(doubleQuoteNode);
+                    statement.Nodes.Add(new SyntaxNode(new SyntaxToken(SyntaxKind.StringToken, identifier)));
+                    statement.Nodes.Add(doubleQuoteNode);
 
                     return statement;
                 });

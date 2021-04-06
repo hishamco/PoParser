@@ -21,8 +21,8 @@ namespace PoParser.Core.Tests
 
             // Assert
             var statement = result.Value as PluralTranslationStatement;
-            Assert.Equal(5, statement.Nodes.Count);
-            Assert.Equal(SyntaxKind.MessageTranslation, statement.Nodes.ElementAt(0).Kind);
+            Assert.Equal(7, statement.Nodes.Count);
+            Assert.Equal(SyntaxKind.IdentifierToken, statement.Nodes.ElementAt(0).Kind);
             Assert.Equal("msgstr", statement.Nodes.ElementAt(0).Token.Value);
             Assert.Equal(SyntaxKind.LeftBracketToken, statement.Nodes.ElementAt(1).Kind);
             Assert.Equal("[", statement.Nodes.ElementAt(1).Token.Value);
@@ -30,8 +30,12 @@ namespace PoParser.Core.Tests
             Assert.Equal(1L, statement.Nodes.ElementAt(2).Token.Value);
             Assert.Equal(SyntaxKind.RightBracketToken, statement.Nodes.ElementAt(3).Kind);
             Assert.Equal("]", statement.Nodes.ElementAt(3).Token.Value);
-            Assert.Equal(SyntaxKind.StringToken, statement.Nodes.ElementAt(4).Kind);
-            Assert.Equal("Plural translation of\na long text", statement.Nodes.ElementAt(4).Token.Value);
+            Assert.Equal(SyntaxKind.DoubleQuoteToken, statement.Nodes.ElementAt(4).Kind);
+            Assert.Equal("\"", statement.Nodes.ElementAt(4).Token.Value);
+            Assert.Equal(SyntaxKind.StringToken, statement.Nodes.ElementAt(5).Kind);
+            Assert.Equal("Plural translation of\na long text", statement.Nodes.ElementAt(5).Token.Value);
+            Assert.Equal(SyntaxKind.DoubleQuoteToken, statement.Nodes.ElementAt(6).Kind);
+            Assert.Equal("\"", statement.Nodes.ElementAt(6).Token.Value);
         }
 
         [Fact]
